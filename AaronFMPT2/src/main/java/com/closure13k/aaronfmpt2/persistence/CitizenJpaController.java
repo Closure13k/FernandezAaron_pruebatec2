@@ -1,6 +1,6 @@
 package com.closure13k.aaronfmpt2.persistence;
 
-import com.closure13k.aaronfmpt2.logic.Citizen;
+import com.closure13k.aaronfmpt2.logic.model.Citizen;
 import com.closure13k.aaronfmpt2.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -133,16 +135,16 @@ public class CitizenJpaController implements Serializable {
             em.close();
         }
     }
-    //</editor-fold>    
+    //</editor-fold>
 
     public Citizen findCitizenByNif(String nif) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         try {
             Query q = em.createNamedQuery("Ciudadanos.buscarPorNif");
             q.setParameter("nif", nif);
-            em.close();
             return (Citizen) q.getSingleResult();
-
+        } catch (NonUniqueResultException | NoResultException nre) {
+            return null;
         } finally {
             em.close();
         }

@@ -1,6 +1,6 @@
 package com.closure13k.aaronfmpt2.persistence;
 
-import com.closure13k.aaronfmpt2.logic.Procedure;
+import com.closure13k.aaronfmpt2.logic.model.Procedure;
 import com.closure13k.aaronfmpt2.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;

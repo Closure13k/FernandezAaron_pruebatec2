@@ -1,9 +1,11 @@
-package com.closure13k.aaronfmpt2.logic;
+package com.closure13k.aaronfmpt2.logic.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQuery;
 public class Turn implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -30,7 +33,7 @@ public class Turn implements Serializable {
     private Procedure procedure;
 
     @Column(name = "fecha_hora")
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(name = "pendiente")
     private Boolean pending;
@@ -39,11 +42,11 @@ public class Turn implements Serializable {
     public Turn() {
     }
 
-    public Turn(Citizen citizen, Procedure procedure, Boolean status) {
+    public Turn(Citizen citizen, Procedure procedure) {
         this.citizen = citizen;
         this.procedure = procedure;
-        this.date = LocalDate.now();
-        this.pending = status;
+        this.date = LocalDateTime.now();
+        this.pending = Boolean.TRUE;
     }
 
     public Long getId() {
@@ -70,20 +73,20 @@ public class Turn implements Serializable {
         this.procedure = procedure;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDateTime(LocalDate dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.date = dateTime;
     }
 
-    public Boolean getStatus() {
+    public Boolean isPending() {
         return pending;
     }
 
-    public void setStatus(Boolean status) {
-        this.pending = status;
+    public void setPending(Boolean pending) {
+        this.pending = pending;
     }
     //</editor-fold>
 

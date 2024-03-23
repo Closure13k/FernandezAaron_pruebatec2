@@ -1,4 +1,4 @@
-package com.closure13k.aaronfmpt2.logic;
+package com.closure13k.aaronfmpt2.logic.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;

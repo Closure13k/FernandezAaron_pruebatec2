@@ -1,6 +1,6 @@
 package com.closure13k.aaronfmpt2.persistence;
 
-import com.closure13k.aaronfmpt2.logic.Turn;
+import com.closure13k.aaronfmpt2.logic.model.Turn;
 import com.closure13k.aaronfmpt2.persistence.exceptions.NonexistentEntityException;
 import com.closure13k.aaronfmpt2.persistence.exceptions.PreexistingEntityException;
 import java.io.Serializable;

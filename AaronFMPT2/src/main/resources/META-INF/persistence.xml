@@ -3,9 +3,9 @@
   <!-- Define Persistence Unit -->
   <persistence-unit name="TurneroPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.closure13k.aaronfmpt2.logic.Citizen</class>
-    <class>com.closure13k.aaronfmpt2.logic.Procedure</class>
-    <class>com.closure13k.aaronfmpt2.logic.Turn</class>
+    <class>com.closure13k.aaronfmpt2.logic.model.Procedure</class>
+    <class>com.closure13k.aaronfmpt2.logic.model.Citizen</class>
+    <class>com.closure13k.aaronfmpt2.logic.model.Turn</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/turnero?serverTimezone=UTC"/>
