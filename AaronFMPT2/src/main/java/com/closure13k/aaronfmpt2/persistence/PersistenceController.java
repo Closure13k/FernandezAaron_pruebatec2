@@ -65,4 +65,16 @@ public class PersistenceController {
         return turnJpa.findAllByDate(date);
     }
 
+    public Optional<Turn> fetchTurn(Long id) {
+        return Optional.ofNullable(turnJpa.findTurn(id));
+    }
+
+    public void updateTurn(Turn turn) {
+        try {
+            turnJpa.edit(turn);
+        } catch (Exception ex) {
+            Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

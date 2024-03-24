@@ -82,10 +82,9 @@ public class TurnServlet extends HttpServlet {
                 turnsList = turnsList.stream()
                         .filter(meetsStatus)
                         .toList();
-
+                
                 request.setAttribute("estado", statusFilter);
             }
-
         }
         request.setAttribute("lista_turnos", turnsList);
     }

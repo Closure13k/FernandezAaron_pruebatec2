@@ -154,7 +154,7 @@ public class TurnJpaController implements Serializable {
      * @return lista de turnos.
      */
     public List<Turn> findAllByDate(LocalDate date) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         try {
             Query q = em.createNamedQuery("Turnos.listarPorFecha");
             q.setParameter("date", date);

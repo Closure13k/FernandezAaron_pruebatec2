@@ -11,6 +11,8 @@ import java.util.Objects;
 public class Controller {
 
     private static Controller instance;
+    
+    
 
     private final PersistenceController pCon = PersistenceController.getInstance();
 
@@ -61,6 +63,15 @@ public class Controller {
 
     public List<Turn> fetchTurnsByDate(LocalDate date) {
         return pCon.fetchTurnsByDate(date);
+    }
+
+    public Turn fetchTurn(Long id) {
+        return pCon.fetchTurn(id)
+                .orElseThrow();
+    }
+
+    public void updateTurn(Turn turn) {
+        pCon.updateTurn(turn);
     }
 
 }

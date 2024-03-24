@@ -15,7 +15,6 @@
                 <!-- Filtro fecha -->
                 <label for="fecha">Fecha:</label>
                 <input type="date" id="fecha" name="fecha" value="<%= (String) request.getAttribute("fecha")%>" required>
-                <br>
                 <!-- Filtro estado -->
                 <label for="estado">Estado:</label>
                 <select id="estado" name="estado">
@@ -27,7 +26,6 @@
                     <option value="false" <%=status.equals("false") ? "selected" : ""%>>Atendido</option>
                     <option value="true" <%=status.equals("true") ? "selected" : ""%>>Pendiente</option>
                 </select>
-                <br>
                 <button type="submit">Filtrar</button>
             </form>
         </div>
@@ -48,12 +46,19 @@
                     <%
                         List<Turn> turns = (List<Turn>) request.getAttribute("lista_turnos");
                         String table = turns.stream()
-                                .map(turn -> "<tr><td>" + turn.getId() + "</td>"
-                                + "<td>" + turn.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm")) + "</td>"
-                                + "<td>" + turn.getCitizen().getNif() + "</td>"
-                                + "<td>" + turn.getProcedure().getDescription() + "</td>"
-                                + "<td>" + (turn.isPending() ? "Pendiente" : "Atendido")
-                                + "</td></tr>")
+                                .map(turn -> {
+                                    String pendingValue = turn.isPending() ? "Pendiente" : "Atendido";
+                                    return "<tr><td>" + turn.getId() + "</td>"
+                                            + "<td>" + turn.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm")) + "</td>"
+                                            + "<td>" + turn.getCitizen().getNif() + "</td>"
+                                            + "<td>" + turn.getProcedure().getDescription() + "</td>"
+                                            + (turn.isPending() ? "<td><form action='TurnUpdateServlet' method='POST'><input type='hidden' name='turnUpdate' value='"
+                                            + turn.getId()
+                                            + "'><button type='submit' value='" + turn.getId()
+                                            + "'>" + pendingValue
+                                            + "</button></form></td>" : "<td>" + pendingValue + "</td>")
+                                            + "</tr>";
+                                })
                                 .collect(Collectors.joining());
                     %>
                     <%=table%>
