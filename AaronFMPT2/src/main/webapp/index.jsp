@@ -6,11 +6,13 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form id="turneroForm" action="ProcedureServlet" method="get">
-            <input type="submit" value="Agregar Turno">
-        </form>
-        <form id="turneroForm" action="TurnServlet" method="get">
-            <input type="submit" value="Listar Turno">
-        </form>
+        <div class="container">
+            <form id="turneroForm" action="ProcedureServlet" method="get">
+                <input type="submit" value="Agregar Turno">
+            </form>
+            <form id="turneroForm" action="TurnServlet" method="get">
+                <input type="submit" value="Listar Turno">
+            </form>
+        </div>
     </body>
 </html>

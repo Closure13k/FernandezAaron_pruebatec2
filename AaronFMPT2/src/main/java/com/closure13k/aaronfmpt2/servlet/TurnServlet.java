@@ -1,6 +1,7 @@
 package com.closure13k.aaronfmpt2.servlet;
 
 import com.closure13k.aaronfmpt2.logic.Controller;
+import com.closure13k.aaronfmpt2.logic.InputValidator;
 import com.closure13k.aaronfmpt2.logic.model.Citizen;
 import com.closure13k.aaronfmpt2.logic.model.Procedure;
 import com.closure13k.aaronfmpt2.logic.model.Turn;
@@ -40,11 +41,19 @@ public class TurnServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Citizen citizen = con.fetchCitizen(request.getParameter("nif_turno"));
-        Procedure procedure = con.fetchProcedure(Long.valueOf(request.getParameter("tramite")));
-        con.createTurn(new Turn(citizen, procedure));
-        response.sendRedirect("index.jsp");
-
+        String path = "list.jsp";
+        final String nif = request.getParameter("nif_turno");
+        //Validación ante posible borrado (pattern="^[0-9]{8}[A-Za-z]{1}$")
+        //mediante inspeccionar elemento.
+        if (!InputValidator.isValidNif(nif)) {
+            path = "index.jsp";
+        } else {
+            Citizen citizen = con.fetchCitizen(nif);
+            Procedure procedure = con.fetchProcedure(Long.valueOf(request.getParameter("tramite")));
+            con.createTurn(new Turn(citizen, procedure));
+        }
+        request.getRequestDispatcher(path)
+                .forward(request, response);
     }
 
     /**
@@ -69,6 +78,7 @@ public class TurnServlet extends HttpServlet {
                         Boolean.valueOf(statusFilter)
                 );
 
+                //Pongamos un poco de streams por aquí.
                 turnsList = turnsList.stream()
                         .filter(meetsStatus)
                         .toList();

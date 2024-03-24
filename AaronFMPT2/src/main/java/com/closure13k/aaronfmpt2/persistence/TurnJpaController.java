@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -105,9 +106,14 @@ public class TurnJpaController implements Serializable {
     private List<Turn> findTurnEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Turn.class));
-            Query q = em.createQuery(cq);
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery query = criteriaBuilder.createQuery();
+            Root fromTurn = query.from(Turn.class);
+
+            query.select(fromTurn);
+            query.orderBy(criteriaBuilder.asc(fromTurn.get("date")));
+
+            Query q = em.createQuery(query);
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -157,24 +163,4 @@ public class TurnJpaController implements Serializable {
             em.close();
         }
     }
-
-    /**
-     * Busca turnos en base a una fecha e id de trámite específicos.
-     *
-     * @param date la fecha.
-     * @param id el id del trámite.
-     * @return la lista filtrada.
-     */
-    public List<Turn> findAllByDateAndProcedure(LocalDate date, int id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            Query q = em.createNamedQuery("Turnos.listarPorFechaYTramite");
-            q.setParameter("date", date);
-            q.setParameter("procedureId", id);
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
 }

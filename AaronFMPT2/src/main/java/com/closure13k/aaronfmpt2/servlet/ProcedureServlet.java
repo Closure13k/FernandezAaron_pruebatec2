@@ -23,7 +23,7 @@ public class ProcedureServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setAttribute("resultados", con.fetchAllProcedures());
+        request.setAttribute("tramites", con.fetchAllProcedures());
         request.getRequestDispatcher("register.jsp")
                 .forward(request, response);
     }

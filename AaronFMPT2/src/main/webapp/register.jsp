@@ -14,15 +14,15 @@
             <!-- Campo DNI -->
             <label for="nif_turno">NIF</label>
             <input type="text" name="nif_turno" 
-                   title="Formato: 8 Números seguidos de una letra." 
+                   title="Formato: 8 Números seguidos de una letra" 
                    pattern="^[0-9]{8}[A-Za-z]{1}$" required/>
 
 
             <!-- Combo de Trámites -->
-            <% if (request.getAttribute("resultados") != null) { %>
+            <% if (request.getAttribute("tramites") != null) { %>
             <label for="tramite">Elige un trámite</label>
             <select name="tramite">
-                <% List<Procedure> procList = (List<Procedure>) request.getAttribute("resultados");
+                <% List<Procedure> procList = (List<Procedure>) request.getAttribute("tramites");
                     String options = procList.stream()
                             .map(proc -> "<option value=\"" + proc.getId() + "\">" + proc.getDescription() + "</option>")
                             .collect(Collectors.joining());

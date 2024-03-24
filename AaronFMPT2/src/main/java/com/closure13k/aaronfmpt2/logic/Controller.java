@@ -5,7 +5,6 @@ import com.closure13k.aaronfmpt2.logic.model.Procedure;
 import com.closure13k.aaronfmpt2.logic.model.Turn;
 import com.closure13k.aaronfmpt2.persistence.PersistenceController;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
