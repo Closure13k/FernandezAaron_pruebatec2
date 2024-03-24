@@ -3,6 +3,7 @@ package com.closure13k.aaronfmpt2.persistence;
 import com.closure13k.aaronfmpt2.logic.model.Citizen;
 import com.closure13k.aaronfmpt2.logic.model.Procedure;
 import com.closure13k.aaronfmpt2.logic.model.Turn;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -12,9 +13,9 @@ public class PersistenceController {
 
     private static PersistenceController instance;
 
-    CitizenJpaController citizenJpa = new CitizenJpaController();
-    ProcedureJpaController procJpa = new ProcedureJpaController();
-    TurnJpaController turnJpa = new TurnJpaController();
+    private final CitizenJpaController citizenJpa = new CitizenJpaController();
+    private final ProcedureJpaController procJpa = new ProcedureJpaController();
+    private final TurnJpaController turnJpa = new TurnJpaController();
 
     //<editor-fold defaultstate="collapsed" desc="Singleton">    
     public static PersistenceController getInstance() {
@@ -58,6 +59,10 @@ public class PersistenceController {
 
     public List<Turn> fetchAllTurns() {
         return turnJpa.findTurnEntities();
+    }
+
+    public List<Turn> fetchTurnsByDate(LocalDate date) {
+        return turnJpa.findAllByDate(date);
     }
 
 }

@@ -13,7 +13,10 @@
         <form action="TurnServlet" method="POST">
             <!-- Campo DNI -->
             <label for="nif_turno">NIF</label>
-            <input type="text" name="nif_turno" required/>
+            <input type="text" name="nif_turno" 
+                   title="Formato: 8 Números seguidos de una letra." 
+                   pattern="^[0-9]{8}[A-Za-z]{1}$" required/>
+
 
             <!-- Combo de Trámites -->
             <% if (request.getAttribute("resultados") != null) { %>
@@ -27,10 +30,8 @@
                 <%=options%>
             </select>
             <% }%>
-
             <!-- Ingreso -->
             <input type="submit" value="Confirmar Solicitud">
-
         </form>
     </body>
 </html>

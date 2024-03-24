@@ -7,69 +7,59 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <style>
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            th, td {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
-
-            th {
-                background-color: #f2f2f2;
-            }
-
-            .filters {
-                margin-bottom: 20px;
-            }
-        </style>
+        <title>Turnos</title>
     </head>
     <body>
-        <div class="filters">
-            <form id="filtroForm" action="/ruta-de-tu-api" method="GET">
-                <label for="fecha">Filtrar por Fecha:</label>
-                <input type="date" id="fecha" name="fecha" required>
-
-                <label for="estado">Filtrar por Estado:</label>
+        <div class="container">
+            <form id="filtroForm" action="TurnServlet" method="GET">
+                <!-- Filtro fecha -->
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" value="<%= (String) request.getAttribute("fecha")%>" required>
+                <br>
+                <!-- Filtro estado -->
+                <label for="estado">Estado:</label>
                 <select id="estado" name="estado">
-                    <option value="">Cualquier Estado</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Atendido">Atendido</option>
+                    <%
+                        String status = (String) request.getAttribute("estado");
+                        status = (status == null) ? "" : status;
+                    %> 
+                    <option value="" <%=status.equals("") ? "selected" : ""%>>Atendido/Pendiente</option>
+                    <option value="false" <%=status.equals("false") ? "selected" : ""%>>Atendido</option>
+                    <option value="true" <%=status.equals("true") ? "selected" : ""%>>Pendiente</option>
                 </select>
-
+                <br>
                 <button type="submit">Filtrar</button>
             </form>
         </div>
 
         <% if (request.getAttribute("lista_turnos") != null) { %>
-        <table id="tablaTurnos">
-            <thead>
-                <tr>
-                    <th>ID de Turno</th>
-                    <th>Fecha</th>
-                    <th>NIF del Ciudadano</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                    List<Turn> turns = (List<Turn>) request.getAttribute("lista_turnos");
-                    String table = turns.stream()
-                            .map(turn -> "<tr><td>" + turn.getId() + "</td>"
-                            + "<td>" + turn.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:m")) + "</td>"
-                            + "<td>" + turn.getCitizen().getNif() + "</td>"
-                            + "<td>" + (turn.isPending() ? "Pendiente" : "Atendido")
-                            + "</td></tr>")
-                            .collect(Collectors.joining());
-                %>
-                <%=table%>
-            </tbody>
-        </table>
+        <div class="panel">
+            <table id="tablaTurnos">
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Fecha</th>
+                        <th>NIF del Ciudadano</th>
+                        <th>Trámite</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        List<Turn> turns = (List<Turn>) request.getAttribute("lista_turnos");
+                        String table = turns.stream()
+                                .map(turn -> "<tr><td>" + turn.getId() + "</td>"
+                                + "<td>" + turn.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm")) + "</td>"
+                                + "<td>" + turn.getCitizen().getNif() + "</td>"
+                                + "<td>" + turn.getProcedure().getDescription() + "</td>"
+                                + "<td>" + (turn.isPending() ? "Pendiente" : "Atendido")
+                                + "</td></tr>")
+                                .collect(Collectors.joining());
+                    %>
+                    <%=table%>
+                </tbody>
+            </table>
+        </div>
         <% }%>
     </body>
 </html>

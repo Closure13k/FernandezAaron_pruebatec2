@@ -15,9 +15,8 @@ import javax.persistence.NamedQuery;
 @Entity(name = "Turnos")
 @NamedQueries({
     @NamedQuery(name = "Turnos.listarPorFecha",
-            query = "SELECT t FROM Turnos AS t WHERE t.date = :date"),
-    @NamedQuery(name = "Turnos.listarPorFechaYTramite",
-            query = "SELECT t FROM Turnos AS t WHERE t.date = :date AND t.procedure.id = :procedureId"),})
+            query = "SELECT t FROM Turnos AS t WHERE FUNCTION('DATE', t.date) = :date")
+})
 public class Turn implements Serializable {
 
     @Id

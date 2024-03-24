@@ -29,7 +29,7 @@ public class Citizen implements Serializable {
     @Column(name = "dni_nif",
             columnDefinition = "CHAR(9) NOT NULL")
     private String nif;
-
+    
     //<editor-fold defaultstate="collapsed" desc="Constructor, Getters y Setters...">
     public Citizen() {
     }

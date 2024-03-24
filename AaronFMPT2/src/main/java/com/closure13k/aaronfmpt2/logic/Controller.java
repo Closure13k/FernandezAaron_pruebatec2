@@ -4,6 +4,8 @@ import com.closure13k.aaronfmpt2.logic.model.Citizen;
 import com.closure13k.aaronfmpt2.logic.model.Procedure;
 import com.closure13k.aaronfmpt2.logic.model.Turn;
 import com.closure13k.aaronfmpt2.persistence.PersistenceController;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +13,7 @@ public class Controller {
 
     private static Controller instance;
 
-    PersistenceController pCon = PersistenceController.getInstance();
+    private final PersistenceController pCon = PersistenceController.getInstance();
 
     //<editor-fold defaultstate="collapsed" desc="Singleton">
     public static Controller getInstance() {
@@ -56,6 +58,10 @@ public class Controller {
 
     public List<Turn> fetchAllTurns() {
         return pCon.fetchAllTurns();
+    }
+
+    public List<Turn> fetchTurnsByDate(LocalDate date) {
+        return pCon.fetchTurnsByDate(date);
     }
 
 }
