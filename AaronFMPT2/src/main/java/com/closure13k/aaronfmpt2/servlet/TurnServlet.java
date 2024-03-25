@@ -21,13 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 public class TurnServlet extends HttpServlet {
 
     List<Turn> turnsList = new ArrayList<>();
-
+    
     Controller con = Controller.getInstance();
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    }
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,6 +48,7 @@ public class TurnServlet extends HttpServlet {
             Procedure procedure = con.fetchProcedure(Long.valueOf(request.getParameter("tramite")));
             con.createTurn(new Turn(citizen, procedure));
         }
+        request.setAttribute("lista_turnos", con.fetchAllTurns());
         request.getRequestDispatcher(path)
                 .forward(request, response);
     }
@@ -69,10 +66,12 @@ public class TurnServlet extends HttpServlet {
         if (dateFilter == null) {
             turnsList = con.fetchAllTurns();
         } else {
-            turnsList = con.fetchTurnsByDate(LocalDate.parse(dateFilter));
             request.setAttribute("fecha", dateFilter);
+            turnsList = con.fetchTurnsByDate(LocalDate.parse(dateFilter));
 
             if (statusFilter != null && !statusFilter.isBlank()) {
+                request.setAttribute("estado", statusFilter);
+                
                 final Predicate<Turn> meetsStatus = turn -> Objects.equals(
                         turn.isPending(),
                         Boolean.valueOf(statusFilter)
@@ -82,8 +81,6 @@ public class TurnServlet extends HttpServlet {
                 turnsList = turnsList.stream()
                         .filter(meetsStatus)
                         .toList();
-                
-                request.setAttribute("estado", statusFilter);
             }
         }
         request.setAttribute("lista_turnos", turnsList);

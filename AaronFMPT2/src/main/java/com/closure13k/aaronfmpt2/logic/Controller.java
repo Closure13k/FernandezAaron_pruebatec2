@@ -11,8 +11,6 @@ import java.util.Objects;
 public class Controller {
 
     private static Controller instance;
-    
-    
 
     private final PersistenceController pCon = PersistenceController.getInstance();
 
@@ -31,6 +29,18 @@ public class Controller {
     }
     //</editor-fold>
 
+    public void createCitizen(Citizen citizen) {
+        pCon.createCitizen(citizen);
+    }
+
+    public void createTurn(Turn turn) {
+        final Citizen citizen = turn.getCitizen();
+        if (Objects.isNull(citizen.getId())) {
+            pCon.createCitizen(citizen);
+        }
+        pCon.createTurn(turn);
+    }
+
     public Citizen fetchCitizen(String nif) {
         return pCon.fetchCitizen(nif)
                 .orElse(new Citizen(nif));
@@ -43,18 +53,6 @@ public class Controller {
 
     public List<Procedure> fetchAllProcedures() {
         return pCon.fetchAllProcedures();
-    }
-
-    public void createCitizen(Citizen citizen) {
-        pCon.createCitizen(citizen);
-    }
-
-    public void createTurn(Turn turn) {
-        final Citizen citizen = turn.getCitizen();
-        if (Objects.isNull(citizen.getId())) {
-            pCon.createCitizen(citizen);
-        }
-        pCon.createTurn(turn);
     }
 
     public List<Turn> fetchAllTurns() {

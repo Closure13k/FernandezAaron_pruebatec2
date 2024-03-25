@@ -1,0 +1,137 @@
+:root {
+    --blanco: #ffffff;
+    --blanco-verdoso: #eafef0;
+    --verde-claro: #a7e8be;
+    --verde-mas-claro: #d2fadf;
+    --verde-oscuro: #71b089;
+    --azul-verdoso-oscuro: #007d88;
+    --negro: #000000;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--blanco-verdoso);
+    /* Cambiado al color blanco verdoso */
+    color: var(--negro);
+}
+
+.container,
+.container-shrink {
+    max-width: calc(100% - 20%);
+    /* Cambiado a un ancho fijo */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--blanco);
+    /* Cambiado al color verde más claro */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.container-shrink {
+    max-width: calc(100% - 50%);
+}
+
+.button-container {margin-bottom: 20px;}
+
+.button-container button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--azul-verdoso-oscuro);
+    /* Cambiado al color azul verdoso oscuro */
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container button:hover {background-color: var(--verde-oscuro);}
+
+.button-as-link {
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    color: #0000EE;
+    padding: 0;
+    text-align: center;
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: inherit;
+    margin:auto;
+    display: inline-block
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form select,
+form input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* Cambiado el ancho máximo de los campos de texto y fecha */
+form input[type="text"],
+form input[type="date"] {
+    max-width: calc(100% - 22px);
+}
+/* Cambiado el color del borde de los campos de texto y fecha */
+form input[type="text"]:focus,
+form select:focus,
+form input[type="date"]:focus {
+    outline: ridge var(--azul-verdoso-oscuro) 2px;
+}
+
+form .form-group {margin-bottom: 20px;}
+
+form .button-container {
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: left;
+}
+/* Redondeado bordes de la tabla */
+table th {
+    background-color: var(--verde-claro);
+}
+table th:first-child {
+    border-top-left-radius: 5px;
+}
+table th:last-child {
+    border-top-right-radius: 5px;
+}
+table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 5px;
+}
+table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+/* Filas pares de la tabla */
+table tbody tr:nth-child(even){
+    background-color: var(--blanco-verdoso);
+}
+
+/* Hover en las filas de la tabla */
+table tbody tr:hover {
+    font-weight: bold;
+    outline: ridge var(--azul-verdoso-oscuro) 2px;
+}

@@ -8,31 +8,44 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Turnos</title>
+        <style><%@include file="res/styles.css"%></style>
     </head>
     <body>
         <div class="container">
+            <form id="turneroForm" action="ProcedureServlet" method="get">
+                <div class="button-container">
+                    <button type="submit">Agregar turno</button>
+                </div>
+            </form>
+            
+            
             <form id="filtroForm" action="TurnServlet" method="GET">
                 <!-- Filtro fecha -->
-                <label for="fecha">Fecha:</label>
-                <input type="date" id="fecha" name="fecha" value="<%= (String) request.getAttribute("fecha")%>" required>
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" value="<%= (String) request.getAttribute("fecha")%>" required>
+                </div>
                 <!-- Filtro estado -->
-                <label for="estado">Estado:</label>
-                <select id="estado" name="estado">
-                    <%
-                        String status = (String) request.getAttribute("estado");
-                        status = (status == null) ? "" : status;
-                    %> 
-                    <option value="" <%=status.equals("") ? "selected" : ""%>>Atendido/Pendiente</option>
-                    <option value="false" <%=status.equals("false") ? "selected" : ""%>>Atendido</option>
-                    <option value="true" <%=status.equals("true") ? "selected" : ""%>>Pendiente</option>
-                </select>
-                <button type="submit">Filtrar</button>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="estado">
+                        <%
+                            String status = (String) request.getAttribute("estado");
+                            status = (status == null) ? "" : status;
+                        %> 
+                        <option value="" <%=status.equals("") ? "selected" : ""%>>Atendido/Pendiente</option>
+                        <option value="false" <%=status.equals("false") ? "selected" : ""%>>Atendido</option>
+                        <option value="true" <%=status.equals("true") ? "selected" : ""%>>Pendiente</option>
+                    </select>
+                </div>
+                <!-- Botón filtro -->
+                <div class="button-container">
+                    <button type="submit">Filtrar</button>
+                </div>
             </form>
-        </div>
 
-        <% if (request.getAttribute("lista_turnos") != null) { %>
-        <div class="panel">
-            <table id="tablaTurnos">
+            <% if (request.getAttribute("lista_turnos") != null) { %>
+            <table>
                 <thead>
                     <tr>
                         <th>Nº</th>
@@ -54,7 +67,7 @@
                                             + "<td>" + turn.getProcedure().getDescription() + "</td>"
                                             + (turn.isPending() ? "<td><form action='TurnUpdateServlet' method='POST'><input type='hidden' name='turnUpdate' value='"
                                             + turn.getId()
-                                            + "'><button type='submit' value='" + turn.getId()
+                                            + "'><button class='button-as-link' type='submit' title='Marcar como atendido' value='" + turn.getId()
                                             + "'>" + pendingValue
                                             + "</button></form></td>" : "<td>" + pendingValue + "</td>")
                                             + "</tr>";
@@ -64,7 +77,7 @@
                     <%=table%>
                 </tbody>
             </table>
+            <% }%>
         </div>
-        <% }%>
     </body>
 </html>

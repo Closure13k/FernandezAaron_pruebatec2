@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "TurnUpdateServlet", urlPatterns = {"/TurnUpdateServlet"})
 public class TurnUpdateServlet extends HttpServlet {
 
@@ -22,11 +21,10 @@ public class TurnUpdateServlet extends HttpServlet {
         Turn turn = con.fetchTurn(Long.valueOf(turnId));
         turn.setPending(Boolean.FALSE);
         con.updateTurn(turn);
-        
-        response.sendRedirect("index.jsp");
-        
-        
 
+        request.setAttribute("lista_turnos", con.fetchAllTurns());
+        request.getRequestDispatcher("list.jsp")
+                .forward(request, response);
     }
 
 }

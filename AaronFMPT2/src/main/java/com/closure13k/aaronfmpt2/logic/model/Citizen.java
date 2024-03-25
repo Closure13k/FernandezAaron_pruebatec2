@@ -18,8 +18,7 @@ import javax.persistence.UniqueConstraint;
 @NamedQueries({
     @NamedQuery(name = "Ciudadanos.buscarPorNif",
             query = "SELECT c FROM Ciudadanos AS c WHERE c.nif = :nif"
-    ),
-})
+    ),})
 public class Citizen implements Serializable {
 
     @Id
@@ -29,13 +28,13 @@ public class Citizen implements Serializable {
     @Column(name = "dni_nif",
             columnDefinition = "CHAR(9) NOT NULL")
     private String nif;
-    
+
     //<editor-fold defaultstate="collapsed" desc="Constructor, Getters y Setters...">
     public Citizen() {
     }
 
     public Citizen(String nif) {
-        this.nif = nif;
+        this.nif = nif.trim().toUpperCase();
     }
 
     public Long getId() {
