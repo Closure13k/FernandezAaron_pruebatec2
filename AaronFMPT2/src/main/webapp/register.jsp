@@ -17,8 +17,8 @@
                 <div class="form-group">
                     <label for="nif_turno">NIF</label>
                     <input type="text" name="nif_turno"
-                           title="Formato: 8 Números seguidos de una letra"
-                           pattern="^[0-9]{8}[A-Za-z]{1}$" required/>
+                           title="Formato de ejemplo: 12345678A"
+                           pattern="^\d{8}[A-Z]$|^[XYZ]\d{7}[A-Z]$" required/>
                 </div>
                 <!-- Combo de Trámites -->
                 <% if (request.getAttribute("tramites") != null) {%>

@@ -15,12 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ProcedureServlet", urlPatterns = {"/ProcedureServlet"})
 public class ProcedureServlet extends HttpServlet {
 
-    private static final Controller con = Controller.INSTANCE;
+    private static final Controller CONTROLLER = Controller.INSTANCE;
 
+    /**
+     * Devuelve los trámites de la base de datos para cargarlos en el combobox
+     * del formulario.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            request.setAttribute("tramites", con.fetchAllProcedures());
+            request.setAttribute("tramites", CONTROLLER.fetchAllProcedures());
             request.getRequestDispatcher("register.jsp")
                     .forward(request, response);
         } catch (ServletException | IOException e) {

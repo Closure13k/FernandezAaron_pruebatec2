@@ -27,12 +27,12 @@ public class Citizen implements Serializable {
             columnDefinition = "CHAR(9) NOT NULL")
     private String nif;
 
-    //<editor-fold defaultstate="collapsed" desc="Constructor, Getters y Setters...">
-    public Citizen() {
-    }
-
     public Citizen(String nif) {
         this.nif = nif.trim().toUpperCase();
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Constructor, Getters y Setters...">
+    public Citizen() {
     }
 
     public Long getId() {

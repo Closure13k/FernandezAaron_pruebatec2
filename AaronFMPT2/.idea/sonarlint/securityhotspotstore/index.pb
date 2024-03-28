@@ -31,3 +31,7 @@ v
 Fsrc/main/java/com/closure13k/aaronfmpt2/servlet/TurnUpdateServlet.java,0\6\0651369966ae08b9a8478b77aa8b74497148b130
 L
 src/main/webapp/register.jsp,b\d\bde35d3876092f82f8efadc1a6675aaf6bd96946
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+w
+Gsrc/main/java/com/closure13k/aaronfmpt2/logic/NifNieInputValidator.java,8\1\8166226f26f03c1f1ab9d02ce32069b565095c29

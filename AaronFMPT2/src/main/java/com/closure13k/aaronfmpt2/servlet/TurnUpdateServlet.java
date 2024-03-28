@@ -14,17 +14,20 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "TurnUpdateServlet", urlPatterns = {"/TurnUpdateServlet"})
 public class TurnUpdateServlet extends HttpServlet {
 
-    private static final Controller con = Controller.INSTANCE;
+    private static final Controller CONTROLLER = Controller.INSTANCE;
 
+    /**
+     * Recoge el turno de la base de datos y lo marca como completado.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
             Long turnId = Long.valueOf(request.getParameter("turnUpdate"));
-            Turn turn = con.fetchTurn(turnId);
+            Turn turn = CONTROLLER.fetchTurn(turnId);
             turn.setPending(Boolean.FALSE);
-            con.updateTurn(turn);
+            CONTROLLER.updateTurn(turn);
 
-            request.setAttribute("lista_turnos", con.fetchAllTurns());
+            request.setAttribute("lista_turnos", CONTROLLER.fetchAllTurns());
             request.getRequestDispatcher("list.jsp")
                     .forward(request, response);
         } catch (NumberFormatException | ServletException | IOException e) {

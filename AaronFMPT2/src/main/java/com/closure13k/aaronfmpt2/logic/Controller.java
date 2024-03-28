@@ -44,7 +44,7 @@ public enum Controller {
     }
 
     public List<Turn> fetchTurnsByDate(LocalDate date) {
-        return pCon.fetchTurnsByDate(date);
+        return pCon.fetchAllTurnsByDate(date);
     }
 
     public Turn fetchTurn(Long id) {

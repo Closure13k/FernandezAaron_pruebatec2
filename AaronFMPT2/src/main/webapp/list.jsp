@@ -24,7 +24,7 @@
                 <!-- Filtro fecha -->
                 <div class="form-group">
                     <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" name="fecha" value="<%= (String) request.getAttribute("fecha")%>" required>
+                    <input type="date" id="fecha" name="fecha" value="<%= (String) request.getAttribute("fecha")%>">
                 </div>
                 <!-- Filtro estado -->
                 <div class="form-group">
@@ -41,7 +41,7 @@
                 </div>
                 <!-- Solicitar filtro -->
                 <div class="button-container">
-                    <button type="submit">Filtrar</button>
+                    <button type="submit">Listar</button>
                 </div>
             </form>
 
