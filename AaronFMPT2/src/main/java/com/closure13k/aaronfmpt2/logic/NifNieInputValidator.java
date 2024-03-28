@@ -16,7 +16,7 @@ public class NifNieInputValidator {
      * Evaluá contra un patrón simple, para pruebas rápidas.
      */
     public static boolean isValidNifSimple(String nif) {
-        return nif != null && nif.matches(NIF_REGEX);
+        return nif != null && nif.toUpperCase().matches(NIF_REGEX);
     }
 
     /**
