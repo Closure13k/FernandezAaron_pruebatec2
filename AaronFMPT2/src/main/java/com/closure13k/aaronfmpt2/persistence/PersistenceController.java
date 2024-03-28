@@ -9,28 +9,12 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PersistenceController {
-
-    private static PersistenceController instance;
+public enum PersistenceController {
+    INSTANCE;   //Singleton
 
     private final CitizenJpaController citizenJpa = new CitizenJpaController();
     private final ProcedureJpaController procJpa = new ProcedureJpaController();
     private final TurnJpaController turnJpa = new TurnJpaController();
-
-    //<editor-fold defaultstate="collapsed" desc="Singleton">    
-    public static PersistenceController getInstance() {
-        if (instance == null) {
-            instance = new PersistenceController();
-        }
-        return instance;
-    }
-
-    private PersistenceController() {
-        if (instance != null) {
-            throw new IllegalStateException();
-        }
-    }
-    //</editor-fold>
 
     public Optional<Citizen> fetchCitizen(String nif) {
         return Optional.ofNullable(citizenJpa.findCitizenByNif(nif));

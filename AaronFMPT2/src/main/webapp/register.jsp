@@ -16,21 +16,16 @@
                 <!-- Campo DNI -->
                 <div class="form-group">
                     <label for="nif_turno">NIF</label>
-                    <input type="text" name="nif_turno" 
-                           title="Formato: 8 Números seguidos de una letra" 
+                    <input type="text" name="nif_turno"
+                           title="Formato: 8 Números seguidos de una letra"
                            pattern="^[0-9]{8}[A-Za-z]{1}$" required/>
                 </div>
                 <!-- Combo de Trámites -->
-                <% if (request.getAttribute("tramites") != null) { %>
+                <% if (request.getAttribute("tramites") != null) {%>
                 <div class="form-group">
                     <label for="tramite">Elige un trámite</label>
                     <select name="tramite">
-                        <% List<Procedure> procList = (List<Procedure>) request.getAttribute("tramites");
-                            String options = procList.stream()
-                                    .map(proc -> "<option value=\"" + proc.getId() + "\">" + proc.getDescription() + "</option>")
-                                    .collect(Collectors.joining());
-                        %>
-                        <%=options%>
+                        <%=createOptions((List<Procedure>) request.getAttribute("tramites"))%>
                     </select>
                 </div>
                 <% }%>
@@ -38,12 +33,26 @@
                 <div class="button-container">
                     <button type="submit">Confirmar Solicitud</button>
                 </div>
-
             </form>
-            <form id="turneroForm" action="TurnServlet" method="get">
+            <!-- Acceso a la lista de turnos -->
+            <form id="turneroForm" action="TurnServlet" method="GET">
                 <div class="button-container">
                     <button type="submit">Listar Turno</button>
                 </div>
             </form>
     </body>
 </html>
+<%!
+    /**
+     * Crea las opciones a partir de los trámites recibidos.
+     *
+     * @param turnList Lista de turnos a mostrar.
+     * @return Código HTML de la tabla.
+     */
+    private String createOptions(List<Procedure> procList) {
+        return procList.stream()
+                .map(proc -> "<option value=\"" + proc.getId() + "\">" + proc.getDescription() + "</option>")
+                .collect(Collectors.joining());
+    }
+
+%>

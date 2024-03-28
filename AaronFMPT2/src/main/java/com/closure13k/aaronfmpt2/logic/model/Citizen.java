@@ -1,24 +1,22 @@
 package com.closure13k.aaronfmpt2.logic.model;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
 
 @Entity(name = "Ciudadanos")
 @Table(uniqueConstraints = {
-    @UniqueConstraint(name = "UQ_Ciudadanos_dninif", columnNames = {"dni_nif"})
+        @UniqueConstraint(name = "UQ_Ciudadanos_dninif", columnNames = {"dni_nif"})
 })
-@NamedQueries({
-    @NamedQuery(name = "Ciudadanos.buscarPorNif",
-            query = "SELECT c FROM Ciudadanos AS c WHERE c.nif = :nif"
-    ),})
+@NamedQuery(name = "Ciudadanos.buscarPorNif",
+        query = "SELECT c FROM Ciudadanos AS c WHERE c.nif = :nif"
+)
 public class Citizen implements Serializable {
 
     @Id

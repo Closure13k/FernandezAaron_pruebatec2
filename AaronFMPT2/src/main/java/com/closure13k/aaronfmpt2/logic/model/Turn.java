@@ -13,10 +13,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity(name = "Turnos")
-@NamedQueries({
-    @NamedQuery(name = "Turnos.listarPorFecha",
-            query = "SELECT t FROM Turnos AS t WHERE FUNCTION('DATE', t.date) = :date ORDER BY t.date ASC")
-})
+@NamedQuery(name = "Turnos.listarPorFecha",
+        query = "SELECT t FROM Turnos AS t WHERE FUNCTION('DATE', t.date) = :date ORDER BY t.date ASC")
 public class Turn implements Serializable {
 
     @Id

@@ -3,17 +3,17 @@ package com.closure13k.aaronfmpt2.persistence;
 import com.closure13k.aaronfmpt2.logic.model.Turn;
 import com.closure13k.aaronfmpt2.persistence.exceptions.NonexistentEntityException;
 import com.closure13k.aaronfmpt2.persistence.exceptions.PreexistingEntityException;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
 
 public class TurnJpaController implements Serializable {
 
@@ -24,15 +24,12 @@ public class TurnJpaController implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Generado por NetBeans">
-    public TurnJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Turn turn) throws PreexistingEntityException, Exception {
+    public void create(Turn turn) throws PreexistingEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -51,7 +48,7 @@ public class TurnJpaController implements Serializable {
         }
     }
 
-    public void edit(Turn turn) throws NonexistentEntityException, Exception {
+    public void edit(Turn turn) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -60,7 +57,7 @@ public class TurnJpaController implements Serializable {
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
+            if (msg == null || msg.isEmpty()) {
                 Long id = turn.getId();
                 if (findTurn(id) == null) {
                     throw new NonexistentEntityException("The turn with id " + id + " no longer exists.");
@@ -74,26 +71,6 @@ public class TurnJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
-        EntityManager em = null;
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Turn turn;
-            try {
-                turn = em.getReference(Turn.class, id);
-                turn.getId();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The turn with id " + id + " no longer exists.", enfe);
-            }
-            em.remove(turn);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
 
     public List<Turn> findTurnEntities() {
         return findTurnEntities(true, -1, -1);
@@ -107,8 +84,8 @@ public class TurnJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-            CriteriaQuery query = criteriaBuilder.createQuery();
-            Root fromTurn = query.from(Turn.class);
+            CriteriaQuery<Object> query = criteriaBuilder.createQuery();
+            Root<Turn> fromTurn = query.from(Turn.class);
 
             query.select(fromTurn);
             query.orderBy(criteriaBuilder.asc(fromTurn.get("date")));
@@ -133,18 +110,6 @@ public class TurnJpaController implements Serializable {
         }
     }
 
-    public int getTurnCount() {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Turn> rt = cq.from(Turn.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
-    }
     //</editor-fold>    
 
     /**

@@ -1,3 +1,4 @@
+<%@page import="java.util.function.Function"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.util.stream.Collectors"%>
 <%@page import="com.closure13k.aaronfmpt2.logic.model.Turn"%>
@@ -17,8 +18,8 @@
                     <button type="submit">Agregar turno</button>
                 </div>
             </form>
-            
-            
+
+
             <form id="filtroForm" action="TurnServlet" method="GET">
                 <!-- Filtro fecha -->
                 <div class="form-group">
@@ -32,20 +33,22 @@
                         <%
                             String status = (String) request.getAttribute("estado");
                             status = (status == null) ? "" : status;
-                        %> 
+                        %>
                         <option value="" <%=status.equals("") ? "selected" : ""%>>Atendido/Pendiente</option>
                         <option value="false" <%=status.equals("false") ? "selected" : ""%>>Atendido</option>
                         <option value="true" <%=status.equals("true") ? "selected" : ""%>>Pendiente</option>
                     </select>
                 </div>
-                <!-- Botón filtro -->
+                <!-- Solicitar filtro -->
                 <div class="button-container">
                     <button type="submit">Filtrar</button>
                 </div>
             </form>
 
-            <% if (request.getAttribute("lista_turnos") != null) { %>
+            <!-- Tabla de turnos -->
+            <% if (request.getAttribute("lista_turnos") != null) {%>
             <table>
+                <caption>Listado de Turnos</caption>
                 <thead>
                     <tr>
                         <th>Nº</th>
@@ -56,28 +59,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%
-                        List<Turn> turns = (List<Turn>) request.getAttribute("lista_turnos");
-                        String table = turns.stream()
-                                .map(turn -> {
-                                    String pendingValue = turn.isPending() ? "Pendiente" : "Atendido";
-                                    return "<tr><td>" + turn.getId() + "</td>"
-                                            + "<td>" + turn.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm")) + "</td>"
-                                            + "<td>" + turn.getCitizen().getNif() + "</td>"
-                                            + "<td>" + turn.getProcedure().getDescription() + "</td>"
-                                            + (turn.isPending() ? "<td><form action='TurnUpdateServlet' method='POST'><input type='hidden' name='turnUpdate' value='"
-                                            + turn.getId()
-                                            + "'><button class='button-as-link' type='submit' title='Marcar como atendido' value='" + turn.getId()
-                                            + "'>" + pendingValue
-                                            + "</button></form></td>" : "<td>" + pendingValue + "</td>")
-                                            + "</tr>";
-                                })
-                                .collect(Collectors.joining());
-                    %>
-                    <%=table%>
+                    <%=createTable((List<Turn>) request.getAttribute("lista_turnos"))%>
                 </tbody>
             </table>
             <% }%>
         </div>
     </body>
 </html>
+<%!
+    /**
+     * Crea una tabla HTML con los turnos recibidos.
+     *
+     * @param turns Lista de turnos a mostrar.
+     * @return Código HTML de la tabla.
+     */
+    private String createTable(List<Turn> turns) {
+        return turns.stream()
+                .map(asTableRow)
+                .collect(Collectors.joining());
+    }
+
+    /**
+     * Convierte el turno en fila.
+     * <br>
+     * Si el turno está como pendiente, genera un botón con POST para
+     * actualizarlo.
+     */
+    Function<Turn, String> asTableRow = turn -> {
+        String formatDate = turn.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm"));
+
+        StringBuilder builder = new StringBuilder("<tr><td>")
+                .append(turn.getId()).append("</td><td>")
+                .append(formatDate).append("</td><td>")
+                .append(turn.getCitizen().getNif()).append("</td><td>")
+                .append(turn.getProcedure().getDescription()).append("</td>");
+
+        String formPart;
+        if (turn.isPending()) {
+            formPart = "<td><form action='TurnUpdateServlet' method='POST'><input type='hidden' name='turnUpdate' value='"
+                    + turn.getId() + "'><button class='button-as-link' type='submit' title='Marcar como atendido' value='"
+                    + turn.getId() + "'>Pendiente</button></form></td>";
+        } else {
+            formPart = "<td>Atendido</td>";
+        }
+
+        return builder.append(formPart).append("</tr>").toString();
+    };
+
+
+%>

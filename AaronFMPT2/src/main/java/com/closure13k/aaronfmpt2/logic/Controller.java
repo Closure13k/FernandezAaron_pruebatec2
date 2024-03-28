@@ -8,26 +8,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class Controller {
+public enum Controller {
+    INSTANCE; //Singleton
 
-    private static Controller instance;
-
-    private final PersistenceController pCon = PersistenceController.getInstance();
-
-    //<editor-fold defaultstate="collapsed" desc="Singleton">
-    public static Controller getInstance() {
-        if (instance == null) {
-            instance = new Controller();
-        }
-        return instance;
-    }
-
-    private Controller() {
-        if (instance != null) {
-            throw new IllegalStateException();
-        }
-    }
-    //</editor-fold>
+    private final PersistenceController pCon = PersistenceController.INSTANCE;
 
     public void createCitizen(Citizen citizen) {
         pCon.createCitizen(citizen);
