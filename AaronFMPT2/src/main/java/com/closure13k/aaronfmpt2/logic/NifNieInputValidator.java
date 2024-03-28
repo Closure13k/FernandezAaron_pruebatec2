@@ -37,7 +37,7 @@ public class NifNieInputValidator {
         } else if (!nifUpper.matches(NIE_REGEX)) {
             char initialLetter = getNieInitialNumber(nifUpper.charAt(0));
             return controlDigitIsValid(
-                    Integer.parseInt(initialLetter + nifUpper.substring(1, 8)),
+                    Integer.parseInt(String.valueOf(initialLetter) + nifUpper.substring(1, 8)),
                     nifUpper.charAt(8)
             );
         } else {
